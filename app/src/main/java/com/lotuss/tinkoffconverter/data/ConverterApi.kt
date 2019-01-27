@@ -3,11 +3,11 @@ package com.lotuss.tinkoffconverter.data
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
-import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ConverterApi {
 
@@ -26,4 +26,8 @@ interface ConverterApi {
 
     @GET("currencies")
     fun getCurrencyList():io.reactivex.Observable<JsonElement>
+
+    @GET("convert")
+    fun getRates(@Query("q")currencies: String,
+                 @Query("compact")compact: String):io.reactivex.Observable<JsonElement>
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -7,50 +7,92 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="8dp"
-              android:textColor="@color/textColor"
-              android:textSize="18sp"
-              android:text="@string/convert_from"/>
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:orientation="vertical"
+                              android:padding="8dp"
+                              android:visibility="gone"
+                              android:id="@+id/converter_view">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:layout_margin="8dp">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="@string/convert_from"
+                              android:layout_marginLeft="8dp"
+                              android:layout_marginRight="8dp"
+                              android:textColor="@color/textColor"
+                              android:textSize="18sp"/>
 
-        <Spinner android:layout_width="0dp"
-                 android:layout_height="match_parent"
-                 android:layout_weight="0.5">
-        </Spinner>
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:layout_margin="8dp">
 
-        <EditText android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="0.5"
-                  android:inputType="number"/>
-    </LinearLayout>
+                        <Spinner android:layout_width="match_parent"
+                                 android:layout_height="match_parent"
+                                 android:layout_weight="0.6"
+                                 android:id="@+id/first_spinner"/>
 
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="8dp"
-              android:textColor="@color/textColor"
-              android:textSize="18sp"
-              android:text="@string/convert_to"/>
+                        <EditText android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:inputType="numberDecimal"
+                                  android:layout_weight="0.4"
+                                  android:id="@+id/first_input"/>
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:layout_margin="8dp">
+                    </LinearLayout>
 
-        <Spinner android:layout_width="0dp"
-                 android:layout_height="match_parent"
-                 android:layout_weight="0.5">
-        </Spinner>
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="@string/convert_to"
+                              android:layout_marginLeft="8dp"
+                              android:layout_marginRight="8dp"
+                              android:textColor="@color/textColor"
+                              android:textSize="18sp"/>
 
-        <EditText android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="0.5"
-                  android:inputType="number"/>
-    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:layout_margin="8dp">
 
-</LinearLayout>
+
+                        <Spinner android:layout_width="match_parent"
+                                 android:layout_height="match_parent"
+                                 android:layout_weight="0.6"
+                                 android:id="@+id/second_spinner"/>
+
+
+                        <EditText android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:inputType="numberDecimal"
+                                  android:layout_weight="0.4"
+                                  android:id="@+id/second_input"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ProgressBar android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:id="@+id/progress"/>
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:layout_gravity="center"
+                          android:id="@+id/connection_error_view"
+                          android:visibility="gone">
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="@string/no_internet_connection"
+                          android:layout_gravity="center"
+                          android:textColor="@color/textColor"
+                          android:layout_marginBottom="8dp"
+                          android:textSize="18sp"/>
+
+                <Button android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_gravity="center"
+                        android:text="@string/retry"
+                        android:id="@+id/retry"/>
+            </LinearLayout>
+</FrameLayout>
