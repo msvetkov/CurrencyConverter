@@ -51,6 +51,7 @@ class RateProvider (private val presenter: ConverterPresenter) {
         ratesMap[secondId + "_" + firstId] = rates.secondToFirst
         saveRatesToCache()
         presenter.finishLoadRates(rates)
+        presenter.addItemToHistory(firstId + "_" + secondId)
     }
 
     private fun loadingError(firstId: String, secondId: String) {
@@ -58,6 +59,7 @@ class RateProvider (private val presenter: ConverterPresenter) {
             rates.firstToSecond = ratesMap[firstId + "_" + secondId]!!
             rates.secondToFirst = ratesMap[secondId + "_" + firstId]!!
             presenter.finishLoadRates(rates)
+            presenter.addItemToHistory(firstId + "_" + secondId)
         } else presenter.errorLoadRates()
     }
 

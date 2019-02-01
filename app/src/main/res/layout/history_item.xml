@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:background="@color/backgroundColor"
+              android:paddingTop="16dp"
+              android:paddingBottom="16dp">
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="USD"
+              android:gravity="end"
+              android:layout_weight="0.3"
+              android:paddingRight="32dp"
+              android:paddingLeft="32dp"
+              android:textColor="@color/textColor"
+              android:textSize="18sp"
+              android:id="@+id/first_currency"/>
+
+    <ImageView android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/ic_compare_arrows_black_24dp"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="EUR"
+              android:gravity="start"
+              android:layout_weight="0.3"
+              android:paddingRight="32dp"
+              android:paddingLeft="32dp"
+              android:textColor="@color/textColor"
+              android:textSize="18sp"
+              android:id="@+id/second_currency"/>
+</LinearLayout>

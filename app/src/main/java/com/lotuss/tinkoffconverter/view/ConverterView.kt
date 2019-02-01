@@ -13,6 +13,8 @@ interface ConverterView: MvpView {
 
     fun setRates(rates: Rates)
 
+    fun addToHistoryList(item: String)
+
     fun showProgress()
 
     fun hideProgress()

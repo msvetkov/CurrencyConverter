@@ -6,6 +6,7 @@ import com.lotuss.tinkoffconverter.data.CurrencyListProvider
 import com.lotuss.tinkoffconverter.data.RateProvider
 import com.lotuss.tinkoffconverter.model.Rates
 import com.lotuss.tinkoffconverter.view.ConverterView
+import java.util.ArrayList
 
 @InjectViewState
 class ConverterPresenter: MvpPresenter<ConverterView>() {
@@ -15,7 +16,11 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
 
     init {
         startLoadCurrencyList()
-        startLoadImportantRates()
+        rateProvider.loadImportantRates()
+    }
+
+    fun addItemToHistory(item: String){
+        viewState.addToHistoryList(item)
     }
 
     fun startLoadCurrencyList(){
@@ -43,9 +48,6 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
         viewState.showConverterView()
     }
 
-    fun startLoadImportantRates() {
-        rateProvider.loadImportantRates()
-    }
     fun finishLoadImportantRates(usd: Double, eur: Double) {
         viewState.setImportantCurses(usd, eur)
         viewState.showImportantRatesView()

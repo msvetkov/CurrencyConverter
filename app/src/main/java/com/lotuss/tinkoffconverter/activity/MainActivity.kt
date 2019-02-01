@@ -1,6 +1,8 @@
 package com.lotuss.tinkoffconverter.activity
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import android.text.Editable
@@ -13,6 +15,9 @@ import com.lotuss.tinkoffconverter.model.Rates
 import com.lotuss.tinkoffconverter.presenter.ConverterPresenter
 import com.lotuss.tinkoffconverter.view.ConverterView
 import java.lang.NumberFormatException
+import android.support.v7.widget.DividerItemDecoration
+import kotlinx.android.synthetic.main.activity_main.view.*
+
 
 class MainActivity : MvpAppCompatActivity(), ConverterView, AdapterView.OnItemSelectedListener {
 
@@ -20,6 +25,9 @@ class MainActivity : MvpAppCompatActivity(), ConverterView, AdapterView.OnItemSe
     lateinit var converterPresenter: ConverterPresenter
 
     private var rates = Rates(1.0, 1.0)
+
+    private val historyList = mutableListOf<String>()
+    private lateinit var historyAdapter: HistoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +40,20 @@ class MainActivity : MvpAppCompatActivity(), ConverterView, AdapterView.OnItemSe
         first_spinner.onItemSelectedListener = this
         second_spinner.onItemSelectedListener = this
 
+        historyAdapter = HistoryAdapter(layoutInflater, historyList)
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        val dividerItemDecoration = DividerItemDecoration(history_list.context, layoutManager.orientation)
+        history_list.addItemDecoration(dividerItemDecoration)
+        history_list.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        history_list.adapter = historyAdapter
         retry.setOnClickListener { converterPresenter.startLoadCurrencyList() }
+    }
+
+    override fun addToHistoryList(item: String) {
+        historyList.remove(item)
+        historyAdapter.notifyDataSetChanged()
+        historyList.add(0, item)
+        historyAdapter.notifyDataSetChanged()
     }
 
     override fun showImportantRatesView() {
