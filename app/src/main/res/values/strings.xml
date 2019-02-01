@@ -9,6 +9,6 @@
     <string name="btc">BTC</string>
     <string name="eur">EUR</string>
     <string name="usd">USD</string>
-    <string name="format">%1$.2f</string>
+    <string name="format">%1$.2f₽</string>
     <string name="history">История запросов:</string>
 </resources>

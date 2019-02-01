@@ -25,6 +25,12 @@ interface ConverterView: MvpView {
 
     fun hideConverterView()
 
+    fun showImportantRatesView()
+
+    fun hideImportantRatesView()
+
     @StateStrategyType(SkipStrategy::class)
     fun showErrorMessage()
+
+    fun setImportantCurses(usd: Double, eur: Double)
 }

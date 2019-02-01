@@ -34,6 +34,19 @@ class MainActivity : MvpAppCompatActivity(), ConverterView, AdapterView.OnItemSe
 
         retry.setOnClickListener { converterPresenter.startLoadCurrencyList() }
     }
+
+    override fun showImportantRatesView() {
+        important_rates_view.visibility = View.VISIBLE
+    }
+    override fun hideImportantRatesView() {
+        important_rates_view.visibility = View.GONE
+    }
+
+    override fun setImportantCurses(usd: Double, eur: Double) {
+        this.usd.text = getString(R.string.format, usd)
+        this.eur.text = getString(R.string.format, eur)
+    }
+
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

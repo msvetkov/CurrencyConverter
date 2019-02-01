@@ -3,6 +3,7 @@ package com.lotuss.tinkoffconverter.data
 import android.content.Context
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
@@ -19,7 +20,6 @@ const val COMPACT = "ultra"
 
 class RateProvider (private val presenter: ConverterPresenter) {
 
-    // Rates
     private val rates = Rates(1.0, 1.0)
 
     private var ratesMap: MutableMap<String, Double> = mutableMapOf()
@@ -80,6 +80,29 @@ class RateProvider (private val presenter: ConverterPresenter) {
         if(json != "")
             ratesMap = gson.fromJson(json, type)
         return ratesMap.isNotEmpty()
+    }
+
+    fun loadImportantRates(){
+        Log.d("TAGTAG", searchForRatesInCash("USD", "RUB").toString())
+        var usd: Double
+        var eur: Double
+        compositeDisposable.add(converterReceiver.getRates("USD_RUB,EUR_RUB", COMPACT)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                usd= gson.fromJson( it.asJsonObject
+                    .get("USD_RUB"), Double::class.java)
+                eur = gson.fromJson( it.asJsonObject
+                    .get("EUR_RUB"), Double::class.java)
+                presenter.finishLoadImportantRates(usd, eur)
+            },{
+                if (searchForRatesInCash("USD","RUB") && searchForRatesInCash("EUR","RUB")) {
+                    usd = ratesMap["USD_RUB"]!!
+                    eur = ratesMap["EUR_RUB"]!!
+                    presenter.finishLoadImportantRates(usd, eur)
+                } else{
+                    presenter.errorLoadImportantRates()}
+            }))
     }
 
     private fun searchForRatesInCash(firstId: String, secondId: String): Boolean {

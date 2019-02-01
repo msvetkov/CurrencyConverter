@@ -30,9 +30,9 @@ class CurrencyListProvider(private val presenter: ConverterPresenter) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
-                successfullyLoaded(it)
+               successfullyLoaded(it)
             }, {
-               loadingError()
+                loadingError()
             }))
     }
 

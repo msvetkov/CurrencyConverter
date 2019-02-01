@@ -15,6 +15,7 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
 
     init {
         startLoadCurrencyList()
+        startLoadImportantRates()
     }
 
     fun startLoadCurrencyList(){
@@ -40,6 +41,18 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
         viewState.hideErrorView()
         viewState.setCurrencyList(currencies)
         viewState.showConverterView()
+    }
+
+    fun startLoadImportantRates() {
+        rateProvider.loadImportantRates()
+    }
+    fun finishLoadImportantRates(usd: Double, eur: Double) {
+        viewState.setImportantCurses(usd, eur)
+        viewState.showImportantRatesView()
+    }
+
+    fun errorLoadImportantRates() {
+        viewState.hideImportantRatesView()
     }
 
     fun startLoadRates(firstId: String, secondId: String){
