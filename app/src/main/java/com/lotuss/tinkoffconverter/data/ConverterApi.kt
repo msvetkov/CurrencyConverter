@@ -24,9 +24,11 @@ interface ConverterApi {
         }
     }
 
+    // Request for a list of currencies
     @GET("currencies")
     fun getCurrencyList():io.reactivex.Observable<JsonElement>
 
+    // Request for pair of rates
     @GET("convert")
     fun getRates(@Query("q")currencies: String,
                  @Query("compact")compact: String):io.reactivex.Observable<JsonElement>

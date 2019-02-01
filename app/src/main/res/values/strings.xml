@@ -4,5 +4,11 @@
     <string name="convert_from">Конвертировать из</string>
     <string name="convert_to">Конвертировать в</string>
     <string name="no_internet_connection">Интернет-соединение недоступно</string>
+    <string name="error_number_format">Некорректные данные</string>
     <string name="retry">Повторить</string>
+    <string name="btc">BTC</string>
+    <string name="eur">EUR</string>
+    <string name="usd">USD</string>
+    <string name="format">%1$.2f</string>
+    <string name="history">История запросов:</string>
 </resources>

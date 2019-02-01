@@ -4,6 +4,7 @@ import com.google.gson.JsonElement
 
 class ConverterReceiver(private val converterApi: ConverterApi){
 
+    // Implements api methods
     fun getCurrencyList():io.reactivex.Observable<JsonElement>{
         return converterApi.getCurrencyList()
     }
