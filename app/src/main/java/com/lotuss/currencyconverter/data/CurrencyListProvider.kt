@@ -1,4 +1,4 @@
-package com.lotuss.tinkoffconverter.data
+package com.lotuss.currencyconverter.data
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,9 +7,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
-import com.lotuss.tinkoffconverter.MyApplication
-import com.lotuss.tinkoffconverter.model.Currency
-import com.lotuss.tinkoffconverter.presenter.ConverterPresenter
+import com.lotuss.currencyconverter.MyApplication
+import com.lotuss.currencyconverter.model.Currency
+import com.lotuss.currencyconverter.presenter.ConverterPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -18,11 +18,13 @@ import io.reactivex.schedulers.Schedulers
 class CurrencyListProvider(private val presenter: ConverterPresenter) {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private val converterReceiver: ConverterReceiver = ConverterReceiverProvider.provide()
+    private val converterReceiver: ConverterReceiver =
+        ConverterReceiverProvider.provide()
     private var currencies: MutableList<String> = mutableListOf()
 
     // To parse response
     private val gson: Gson = GsonBuilder().create()
+
 
     fun loadCurrencyList() {
         // Unpacking the response
@@ -60,6 +62,7 @@ class CurrencyListProvider(private val presenter: ConverterPresenter) {
         editor.apply()
     }
 
+    // In case of poor connection
     private fun loadCurrenciesFromCache(): Boolean{
         val sharedPreferences: SharedPreferences = MyApplication.getContext().getSharedPreferences("MainActivity", AppCompatActivity.MODE_PRIVATE)
         val json: String? = sharedPreferences.getString("Currencies", "")

@@ -1,11 +1,11 @@
-package com.lotuss.tinkoffconverter.presenter
+package com.lotuss.currencyconverter.presenter
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.lotuss.tinkoffconverter.data.CurrencyListProvider
-import com.lotuss.tinkoffconverter.data.RateProvider
-import com.lotuss.tinkoffconverter.model.Rates
-import com.lotuss.tinkoffconverter.view.ConverterView
+import com.lotuss.currencyconverter.data.CurrencyListProvider
+import com.lotuss.currencyconverter.data.RateProvider
+import com.lotuss.currencyconverter.model.Rates
+import com.lotuss.currencyconverter.view.ConverterView
 
 @InjectViewState
 class ConverterPresenter: MvpPresenter<ConverterView>() {
@@ -13,13 +13,11 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
     private val currencyListProvider = CurrencyListProvider(this)
     private val rateProvider = RateProvider(this)
 
+    private var isPreviousRateError: Boolean = false
+
     init {
         startLoadCurrencyList()
-        rateProvider.loadImportantRates()
-    }
-
-    fun addItemToHistory(item: String){
-        viewState.addToHistoryList(item)
+        startLoadImportantRates()
     }
 
     fun startLoadCurrencyList(){
@@ -33,14 +31,6 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
         viewState.showErrorView()
     }
 
-    fun finishLoadCurrencyListOffline(currencies: MutableList<String>){
-        viewState.hideProgress()
-        viewState.showOfflineMessage()
-        viewState.setCurrencyList(currencies)
-        viewState.showConverterView()
-        viewState.setHistoryAdapter()
-    }
-
     fun finishLoadCurrencyList(currencies: MutableList<String>){
         viewState.hideProgress()
         viewState.hideErrorView()
@@ -49,13 +39,25 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
         viewState.setHistoryAdapter()
     }
 
-    fun finishLoadImportantRates(usd: Double, eur: Double) {
-        viewState.setImportantCurses(usd, eur)
-        viewState.showImportantRatesView()
+    fun finishLoadCurrencyListOffline(currencies: MutableList<String>){
+        viewState.hideProgress()
+        viewState.showOfflineMessage()
+        viewState.setCurrencyList(currencies)
+        viewState.showConverterView()
+        viewState.setHistoryAdapter()
+    }
+
+    fun startLoadImportantRates(){
+        rateProvider.loadImportantRates()
     }
 
     fun errorLoadImportantRates() {
         viewState.hideImportantRatesView()
+    }
+
+    fun finishLoadImportantRates(usd: Double, eur: Double) {
+        viewState.setImportantCurses(usd, eur)
+        viewState.showImportantRatesView()
     }
 
     fun startLoadRates(firstId: String, secondId: String){
@@ -64,6 +66,7 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
 
     fun errorLoadRates(){
         viewState.showErrorMessage()
+        isPreviousRateError = true
         viewState.returnToPreviousSelections()
     }
 
@@ -71,12 +74,19 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
         viewState.setRates(rates)
         viewState.setSelectionToBackUp()
         viewState.updateEditText()
+        isPreviousRateError = false
     }
 
     fun finishLoadRatesOffline(rates: Rates){
         viewState.setRates(rates)
         viewState.setSelectionToBackUp()
-        viewState.showOfflineMessage()
+        if (!isPreviousRateError)
+            viewState.showOfflineMessage()
+        isPreviousRateError = false
         viewState.updateEditText()
+    }
+
+    fun addItemToHistory(item: String){
+        viewState.addToHistoryList(item)
     }
 }

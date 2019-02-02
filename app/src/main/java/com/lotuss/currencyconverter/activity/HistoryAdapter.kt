@@ -1,4 +1,4 @@
-package com.lotuss.tinkoffconverter.activity
+package com.lotuss.currencyconverter.activity
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
-import com.lotuss.tinkoffconverter.R
+import com.lotuss.currencyconverter.R
 import kotlinx.android.synthetic.main.history_item.view.*
 
 class HistoryAdapter(private val layoutInflater: LayoutInflater, private val items: MutableList<String>,

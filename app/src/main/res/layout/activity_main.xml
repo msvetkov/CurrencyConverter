@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".activity.MainActivity">
+        tools:context="com.lotuss.currencyconverter.activity.MainActivity">
 
 
     <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
@@ -143,9 +143,13 @@
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
 
+                    <View android:layout_width="match_parent"
+                          android:layout_height="0.5dp"
+                          android:layout_marginTop="8dp"
+                          android:background="@color/dividerColor"/>
+
                     <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
                                                             android:layout_height="match_parent"
-                                                            android:layout_marginTop="8dp"
                                                             android:id="@+id/history_list"/>
 
                 </LinearLayout>

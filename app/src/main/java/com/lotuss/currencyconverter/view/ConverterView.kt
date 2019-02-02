@@ -1,10 +1,10 @@
-package com.lotuss.tinkoffconverter.view
+package com.lotuss.currencyconverter.view
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import com.lotuss.tinkoffconverter.model.Rates
+import com.lotuss.currencyconverter.model.Rates
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ConverterView: MvpView {

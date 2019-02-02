@@ -1,4 +1,4 @@
-package com.lotuss.tinkoffconverter
+package com.lotuss.currencyconverter
 
 import android.app.Application
 import android.content.Context

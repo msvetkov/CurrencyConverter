@@ -1,4 +1,4 @@
-package com.lotuss.tinkoffconverter.data
+package com.lotuss.currencyconverter.data
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -13,7 +13,7 @@ interface ConverterApi {
 
     companion object {
 
-        fun create():ConverterApi{
+        fun create(): ConverterApi {
             val gson: Gson = GsonBuilder().setLenient().create()
             val retrofit: Retrofit = Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

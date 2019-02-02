@@ -1,4 +1,4 @@
-package com.lotuss.tinkoffconverter.data
+package com.lotuss.currencyconverter.data
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,9 +8,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
-import com.lotuss.tinkoffconverter.MyApplication
-import com.lotuss.tinkoffconverter.model.Rates
-import com.lotuss.tinkoffconverter.presenter.ConverterPresenter
+import com.lotuss.currencyconverter.MyApplication
+import com.lotuss.currencyconverter.model.Rates
+import com.lotuss.currencyconverter.presenter.ConverterPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -25,13 +25,21 @@ class RateProvider (private val presenter: ConverterPresenter) {
     private var ratesMap: MutableMap<String, Double> = mutableMapOf()
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private val converterReceiver: ConverterReceiver = ConverterReceiverProvider.provide()
+    private val converterReceiver: ConverterReceiver =
+        ConverterReceiverProvider.provide()
+
+    // To parse answer from server
     private val gson: Gson = GsonBuilder().create()
+
+    init {
+        loadRatesFromCache()
+    }
 
     // Assign a pair of ratesMap from network or cache
     fun loadCurrentRates(firstId: String, secondId: String) {
         compositeDisposable.add(converterReceiver.getRates(
-            firstId + "_" + secondId + "," + secondId + "_" + firstId, COMPACT)
+            firstId + "_" + secondId + "," + secondId + "_" + firstId, COMPACT
+        )
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
@@ -55,7 +63,7 @@ class RateProvider (private val presenter: ConverterPresenter) {
     }
 
     private fun loadingError(firstId: String, secondId: String) {
-        if(loadRatesFromCache() && searchForRatesInCash(firstId, secondId)) {
+        if(searchForRatesInCache(firstId, secondId)) {
             rates.firstToSecond = ratesMap[firstId + "_" + secondId]!!
             rates.secondToFirst = ratesMap[secondId + "_" + firstId]!!
             presenter.finishLoadRatesOffline(rates)
@@ -73,7 +81,7 @@ class RateProvider (private val presenter: ConverterPresenter) {
     }
 
     // Load ratesMap with ratesMap from cache
-    private fun loadRatesFromCache(): Boolean{
+    private fun loadRatesFromCache() {
         val sharedPreferences: SharedPreferences = MyApplication.getContext()
                         .getSharedPreferences("RateReceiver", AppCompatActivity.MODE_PRIVATE)
         val json: String? = sharedPreferences.getString("Rates", "")
@@ -81,11 +89,11 @@ class RateProvider (private val presenter: ConverterPresenter) {
         ratesMap = gson.fromJson(json, type)
         if(json != "")
             ratesMap = gson.fromJson(json, type)
-        return ratesMap.isNotEmpty()
     }
 
+    // To display USD and EUR to RUB
     fun loadImportantRates(){
-        Log.d("TAGTAG", searchForRatesInCash("USD", "RUB").toString())
+        Log.d("TAGTAG", searchForRatesInCache("USD", "RUB").toString())
         var usd: Double
         var eur: Double
         compositeDisposable.add(converterReceiver.getRates("USD_RUB,EUR_RUB", COMPACT)
@@ -98,7 +106,7 @@ class RateProvider (private val presenter: ConverterPresenter) {
                     .get("EUR_RUB"), Double::class.java)
                 presenter.finishLoadImportantRates(usd, eur)
             },{
-                if (searchForRatesInCash("USD","RUB") && searchForRatesInCash("EUR","RUB")) {
+                if (searchForRatesInCache("USD","RUB") && searchForRatesInCache("EUR","RUB")) {
                     usd = ratesMap["USD_RUB"]!!
                     eur = ratesMap["EUR_RUB"]!!
                     presenter.finishLoadImportantRates(usd, eur)
@@ -107,7 +115,7 @@ class RateProvider (private val presenter: ConverterPresenter) {
             }))
     }
 
-    private fun searchForRatesInCash(firstId: String, secondId: String): Boolean {
+    private fun searchForRatesInCache(firstId: String, secondId: String): Boolean {
         return ratesMap[firstId + "_" + secondId] != null
     }
 }

@@ -1,4 +1,4 @@
-package com.lotuss.tinkoffconverter.model
+package com.lotuss.currencyconverter.model
 
 import com.google.gson.annotations.SerializedName
 

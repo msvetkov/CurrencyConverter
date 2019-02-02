@@ -1,4 +1,4 @@
-package com.lotuss.tinkoffconverter.activity
+package com.lotuss.currencyconverter.activity
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -10,12 +10,11 @@ import android.text.TextWatcher
 import android.widget.*
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.lotuss.tinkoffconverter.R
-import com.lotuss.tinkoffconverter.model.Rates
-import com.lotuss.tinkoffconverter.presenter.ConverterPresenter
-import com.lotuss.tinkoffconverter.view.ConverterView
+import com.lotuss.currencyconverter.R
+import com.lotuss.currencyconverter.model.Rates
+import com.lotuss.currencyconverter.presenter.ConverterPresenter
+import com.lotuss.currencyconverter.view.ConverterView
 import java.lang.NumberFormatException
-import android.support.v7.widget.DividerItemDecoration
 
 
 class MainActivity : MvpAppCompatActivity(), ConverterView, AdapterView.OnItemSelectedListener {
@@ -51,22 +50,28 @@ class MainActivity : MvpAppCompatActivity(), ConverterView, AdapterView.OnItemSe
         second_spinner.onItemSelectedListener = this
 
 
-        retry.setOnClickListener { converterPresenter.startLoadCurrencyList() }
+        retry.setOnClickListener {
+            converterPresenter.startLoadCurrencyList()
+            converterPresenter.startLoadImportantRates()
+        }
     }
 
     // Set recycler view with history of currencies
     override fun setHistoryAdapter() {
-        historyAdapter = HistoryAdapter(layoutInflater, historyList, first_spinner, second_spinner, arrayAdapter)
+        historyAdapter = HistoryAdapter(
+            this.layoutInflater,
+            historyList,
+            first_spinner,
+            second_spinner,
+            arrayAdapter
+        )
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        val dividerItemDecoration = DividerItemDecoration(history_list.context, layoutManager.orientation)
-        history_list.addItemDecoration(dividerItemDecoration)
         history_list.layoutManager = layoutManager
         history_list.adapter = historyAdapter
     }
 
     override fun addToHistoryList(item: String) {
         historyList.remove(item)
-        historyAdapter.notifyDataSetChanged()
         historyList.add(0, item)
         historyAdapter.notifyDataSetChanged()
     }

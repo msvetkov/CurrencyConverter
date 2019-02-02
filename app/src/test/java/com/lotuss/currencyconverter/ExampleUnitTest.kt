@@ -1,4 +1,4 @@
-package com.lotuss.tinkoffconverter
+package com.lotuss.currencyconverter
 
 import org.junit.Test
 

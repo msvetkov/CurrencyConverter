@@ -1,4 +1,4 @@
-package com.lotuss.tinkoffconverter.data
+package com.lotuss.currencyconverter.data
 
 import com.google.gson.JsonElement
 
