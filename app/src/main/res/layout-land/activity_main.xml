@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.lotuss.currencyconverter.activity.MainActivity">
+
+
+    <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+                                                android:layout_height="match_parent">
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:orientation="vertical"
+                              android:visibility="visible"
+                              android:id="@+id/converter_view">
+
+                    <android.support.v7.widget.CardView android:layout_width="match_parent"
+                                                        android:layout_height="match_parent">
+
+                        <LinearLayout android:layout_width="match_parent"
+                                      android:layout_height="wrap_content"
+                                      android:padding="32dp"
+                                      android:orientation="vertical">
+
+                            <TextView android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"
+                                      android:text="@string/convert_from"
+                                      android:layout_marginLeft="8dp"
+                                      android:layout_marginRight="8dp"
+                                      android:textColor="@color/textColor"
+                                      android:textSize="16sp"/>
+
+                            <LinearLayout android:layout_width="match_parent"
+                                          android:layout_height="wrap_content"
+                                          android:orientation="horizontal"
+                                          android:layout_margin="16dp">
+
+                                <Spinner android:layout_width="match_parent"
+                                         android:layout_height="match_parent"
+                                         android:layout_weight="0.6"
+                                         android:id="@+id/first_spinner"/>
+
+                                <EditText android:layout_width="match_parent"
+                                          android:layout_height="wrap_content"
+                                          android:inputType="numberDecimal"
+                                          android:layout_weight="0.4"
+                                          android:id="@+id/first_input"/>
+
+
+                            </LinearLayout>
+
+                            <TextView android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"
+                                      android:text="@string/convert_to"
+                                      android:layout_marginLeft="8dp"
+                                      android:layout_marginRight="8dp"
+                                      android:textColor="@color/textColor"
+                                      android:textSize="16sp"/>
+
+                            <LinearLayout android:layout_width="match_parent"
+                                          android:layout_height="wrap_content"
+                                          android:orientation="horizontal"
+                                          android:layout_margin="16dp">
+
+
+                                <Spinner android:layout_width="match_parent"
+                                         android:layout_height="match_parent"
+                                         android:layout_weight="0.6"
+                                         android:id="@+id/second_spinner"/>
+
+
+                                <EditText android:layout_width="match_parent"
+                                          android:layout_height="wrap_content"
+                                          android:inputType="numberDecimal"
+                                          android:layout_weight="0.4"
+                                          android:id="@+id/second_input"/>
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView android:layout_width="match_parent"
+                                                        android:layout_height="0dp"
+                                                        android:layout_marginTop="8dp"
+                                                        android:layout_marginRight="32dp"
+                                                        android:layout_marginLeft="32dp"
+                                                        android:visibility="gone"
+                                                        android:id="@+id/important_rates_view">
+
+                        <LinearLayout android:layout_width="match_parent"
+                                      android:layout_height="match_parent"
+                                      android:orientation="horizontal"
+                                      android:paddingTop="16dp"
+                                      android:paddingBottom="16dp"
+                                      android:paddingLeft="32dp"
+                                      android:paddingRight="32dp">
+
+                            <LinearLayout android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:gravity="start"
+                                          android:layout_weight="0.3">
+
+                                <TextView android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:text="@string/usd"
+                                          android:textSize="16sp"
+                                          android:layout_marginRight="4dp"
+                                          android:layout_marginEnd="4dp"/>
+
+                                <TextView android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:textColor="@color/textColor"
+                                          android:textSize="16sp"
+                                          android:id="@+id/usd"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:gravity="end"
+                                          android:layout_weight="0.3">
+
+                                <TextView android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:text="@string/eur"
+                                          android:textSize="16sp"
+                                          android:layout_marginRight="4dp"
+                                          android:layout_marginEnd="4dp"/>
+
+                                <TextView android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:textColor="@color/textColor"
+                                          android:textSize="16sp"
+                                          android:id="@+id/eur"/>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
+                                                            android:layout_height="0dp"
+                                                            android:id="@+id/history_list"/>
+
+                </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <ProgressBar android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:visibility="gone"
+                             android:id="@+id/progress"/>
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:layout_gravity="center"
+                          android:id="@+id/connection_error_view"
+                          android:visibility="gone">
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="@string/no_internet_connection"
+                          android:layout_gravity="center"
+                          android:textColor="@color/textColor"
+                          android:layout_marginBottom="8dp"
+                          android:textSize="18sp"/>
+
+                <Button android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_gravity="center"
+                        android:text="@string/retry"
+                        android:id="@+id/retry"/>
+            </LinearLayout>
+</FrameLayout>
