@@ -5,11 +5,14 @@
               android:orientation="horizontal"
               android:background="@color/backgroundColor"
               android:paddingTop="16dp"
-              android:paddingBottom="16dp">
+              android:paddingBottom="16dp"
+              android:clickable="true"
+              android:focusable="true"
+              android:foreground="?android:attr/selectableItemBackground"
+              android:id="@+id/history_item">
 
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="USD"
               android:gravity="end"
               android:layout_weight="0.3"
               android:paddingRight="32dp"
@@ -20,11 +23,11 @@
 
     <ImageView android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:src="@drawable/ic_compare_arrows_black_24dp"/>
+               android:src="@drawable/ic_compare_arrows_black_24dp"
+               android:contentDescription="@string/convert_to"/>
 
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="EUR"
               android:gravity="start"
               android:layout_weight="0.3"
               android:paddingRight="32dp"

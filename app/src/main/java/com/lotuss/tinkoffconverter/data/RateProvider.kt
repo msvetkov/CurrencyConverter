@@ -58,7 +58,7 @@ class RateProvider (private val presenter: ConverterPresenter) {
         if(loadRatesFromCache() && searchForRatesInCash(firstId, secondId)) {
             rates.firstToSecond = ratesMap[firstId + "_" + secondId]!!
             rates.secondToFirst = ratesMap[secondId + "_" + firstId]!!
-            presenter.finishLoadRates(rates)
+            presenter.finishLoadRatesOffline(rates)
             presenter.addItemToHistory(firstId + "_" + secondId)
         } else presenter.errorLoadRates()
     }

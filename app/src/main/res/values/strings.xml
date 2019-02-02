@@ -4,6 +4,7 @@
     <string name="convert_from">Конвертировать из</string>
     <string name="convert_to">Конвертировать в</string>
     <string name="no_internet_connection">Интернет-соединение недоступно</string>
+    <string name="loaded_offline">Загружено оффлайн. Возможно, данные устарели.</string>
     <string name="error_number_format">Некорректные данные</string>
     <string name="retry">Повторить</string>
     <string name="btc">BTC</string>

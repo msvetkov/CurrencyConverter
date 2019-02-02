@@ -6,7 +6,6 @@ import com.lotuss.tinkoffconverter.data.CurrencyListProvider
 import com.lotuss.tinkoffconverter.data.RateProvider
 import com.lotuss.tinkoffconverter.model.Rates
 import com.lotuss.tinkoffconverter.view.ConverterView
-import java.util.ArrayList
 
 @InjectViewState
 class ConverterPresenter: MvpPresenter<ConverterView>() {
@@ -36,9 +35,10 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
 
     fun finishLoadCurrencyListOffline(currencies: MutableList<String>){
         viewState.hideProgress()
-        viewState.showErrorMessage()
+        viewState.showOfflineMessage()
         viewState.setCurrencyList(currencies)
         viewState.showConverterView()
+        viewState.setHistoryAdapter()
     }
 
     fun finishLoadCurrencyList(currencies: MutableList<String>){
@@ -46,6 +46,7 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
         viewState.hideErrorView()
         viewState.setCurrencyList(currencies)
         viewState.showConverterView()
+        viewState.setHistoryAdapter()
     }
 
     fun finishLoadImportantRates(usd: Double, eur: Double) {
@@ -63,9 +64,19 @@ class ConverterPresenter: MvpPresenter<ConverterView>() {
 
     fun errorLoadRates(){
         viewState.showErrorMessage()
+        viewState.returnToPreviousSelections()
     }
 
     fun finishLoadRates(rates: Rates){
         viewState.setRates(rates)
+        viewState.setSelectionToBackUp()
+        viewState.updateEditText()
+    }
+
+    fun finishLoadRatesOffline(rates: Rates){
+        viewState.setRates(rates)
+        viewState.setSelectionToBackUp()
+        viewState.showOfflineMessage()
+        viewState.updateEditText()
     }
 }

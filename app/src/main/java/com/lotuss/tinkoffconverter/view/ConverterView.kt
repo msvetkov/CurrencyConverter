@@ -13,6 +13,8 @@ interface ConverterView: MvpView {
 
     fun setRates(rates: Rates)
 
+    fun setHistoryAdapter()
+
     fun addToHistoryList(item: String)
 
     fun showProgress()
@@ -34,5 +36,14 @@ interface ConverterView: MvpView {
     @StateStrategyType(SkipStrategy::class)
     fun showErrorMessage()
 
+    @StateStrategyType(SkipStrategy::class)
+    fun showOfflineMessage()
+
     fun setImportantCurses(usd: Double, eur: Double)
+
+    fun setSelectionToBackUp()
+
+    fun returnToPreviousSelections()
+
+    fun updateEditText()
 }

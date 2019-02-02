@@ -16,7 +16,6 @@ import com.lotuss.tinkoffconverter.presenter.ConverterPresenter
 import com.lotuss.tinkoffconverter.view.ConverterView
 import java.lang.NumberFormatException
 import android.support.v7.widget.DividerItemDecoration
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 
 class MainActivity : MvpAppCompatActivity(), ConverterView, AdapterView.OnItemSelectedListener {
@@ -26,27 +25,43 @@ class MainActivity : MvpAppCompatActivity(), ConverterView, AdapterView.OnItemSe
 
     private var rates = Rates(1.0, 1.0)
 
+    private lateinit var firstEditText: EditText
+    private lateinit var secondEditText: EditText
+
     private val historyList = mutableListOf<String>()
     private lateinit var historyAdapter: HistoryAdapter
+
+    // Adapter for spinners
+    private lateinit var arrayAdapter: ArrayAdapter<String>
+
+    // To return in case of a bad connection
+    private var previousSelectionFirst: Int = 141
+    private var previousSelectionSecond: Int = 8
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val firstEditText:EditText = this.first_input
-        val secondEditText: EditText = this.second_input
+
+        firstEditText = this.first_input
+        secondEditText = this.second_input
 
         convertValues(firstEditText, secondEditText)
 
         first_spinner.onItemSelectedListener = this
         second_spinner.onItemSelectedListener = this
 
-        historyAdapter = HistoryAdapter(layoutInflater, historyList)
+
+        retry.setOnClickListener { converterPresenter.startLoadCurrencyList() }
+    }
+
+    // Set recycler view with history of currencies
+    override fun setHistoryAdapter() {
+        historyAdapter = HistoryAdapter(layoutInflater, historyList, first_spinner, second_spinner, arrayAdapter)
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         val dividerItemDecoration = DividerItemDecoration(history_list.context, layoutManager.orientation)
         history_list.addItemDecoration(dividerItemDecoration)
-        history_list.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        history_list.layoutManager = layoutManager
         history_list.adapter = historyAdapter
-        retry.setOnClickListener { converterPresenter.startLoadCurrencyList() }
     }
 
     override fun addToHistoryList(item: String) {
@@ -103,16 +118,30 @@ class MainActivity : MvpAppCompatActivity(), ConverterView, AdapterView.OnItemSe
     }
 
     override fun setCurrencyList(currencies: MutableList<String>) {
-        val adapter: ArrayAdapter<String>  = ArrayAdapter(this, android.R.layout.simple_spinner_item, currencies)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        first_spinner.adapter = adapter
-        second_spinner.adapter = adapter
-        first_spinner.setSelection(141)
-        second_spinner.setSelection(8)
+        arrayAdapter   = ArrayAdapter(this, android.R.layout.simple_spinner_item, currencies)
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        first_spinner.adapter = arrayAdapter
+        second_spinner.adapter = arrayAdapter
+        first_spinner.setSelection(previousSelectionFirst) //RUB
+        second_spinner.setSelection(previousSelectionSecond) //USD
     }
 
     override fun showErrorMessage() {
         Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_LONG).show()
+    }
+
+    override fun showOfflineMessage() {
+        Toast.makeText(this, R.string.loaded_offline, Toast.LENGTH_LONG).show()
+    }
+
+    override fun setSelectionToBackUp() {
+        previousSelectionFirst = first_spinner.selectedItemPosition
+        previousSelectionSecond = second_spinner.selectedItemPosition
+    }
+
+    override fun returnToPreviousSelections() {
+        first_spinner.setSelection(previousSelectionFirst)
+        second_spinner.setSelection(previousSelectionSecond)
     }
 
     // Set listeners for both fields
@@ -148,5 +177,10 @@ class MainActivity : MvpAppCompatActivity(), ConverterView, AdapterView.OnItemSe
                     R.string.error_number_format, Toast.LENGTH_LONG).show()
             }
         }else editText.setText("")
+    }
+
+    override fun updateEditText() {
+        val s = firstEditText.text
+        setResult(secondEditText, s, rates.firstToSecond)
     }
 }
